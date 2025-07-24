@@ -116,10 +116,16 @@ python -m http.server 80
 python3 slowloris.py 127.0.0.1
 
     Your realtime_ids.py should start detecting high-volume flows (e.g., DoS Hulk or Slowl
-    
+
 📝 License
 
 MIT License — feel free to use and adapt!
+
+## 🔍 Demo Output
+
+![Live Prediction Screenshot](images/output.png)
+![Model Training Results](images/performance.png)
+![Sanity check](images/SANITYCHEACK.png)
 
 
 
