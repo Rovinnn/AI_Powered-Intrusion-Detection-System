@@ -27,60 +27,59 @@ Detect cyber attacks *in real time* with cutting-edge AI! This project harnesses
   pip install pandas numpy scikit-learn imbalanced-learn xgboost joblib
 
     Combined CICIDS2017 dataset (combine.csv) with NFStreamer features
+🧠 How to Use
+🛠 Model Training (Offline)
 
-How to Use
+    Load and clean CICIDS2017 data
 
-    Preprocess the data and balance classes with SMOTE.
+    Apply SMOTE to balance class distribution
 
-    Train the XGBoost model on the cleaned dataset.
+    Train using XGBClassifier
 
-    Evaluate using precision, recall, F1, and confusion matrix.
+    Evaluate with F1-score and confusion matrix
 
-    Save your model & scaler for real-time predictions!
+    Export model, scaler, and label encoder
 
-Check out the ids_training.py script for the full workflow.
-📊 Results at a Glance
+    Run the full training pipeline:
+    python ids_training.py
+
+🌐 Real-Time Detection (NFStreamer)
+
+    Connect to a live network interface (e.g., Wi-Fi, Ethernet)
+
+    Extract features using NFStreamer
+
+    Scale and predict using trained model
+
+    Print predicted labels in real time
+
+    Run the real-time system:
+    python realtime_nfstream.py
+
+📉 Results at a Glance
 Metric	Score
-Weighted F1	99.2%
-Top Features	Bwd Packet Length Std, Average Packet Size, PSH Flag Count, and more
+Accuracy	99.7%
+F1 (Weighted)	99.8%
+Classes	9 (e.g., DoS, DDoS, Bot, PortScan, RareAttack)
 
-Cross-validation confirms this model is ready for the real world.
-📁 Project Files
+    Top features: Bwd Packet Length Std, Avg Packet Size, PSH Flag Count, ...
 
-.
-├── combine.csv           # Raw combined CICIDS2017 dataset
-├── ids_training.py       # Training + evaluation script
-├── ids_model.joblib      # Trained XGBoost model
-├── scaler.joblib         # Feature scaler (MinMaxScaler)
-├── label_encoder.joblib  # Attack label encoder
-└── README.md             # This overview
+🧪 Attack Simulation (Safe Environment Only)
+1. 🧨 DoS - Slowloris
 
-⚠️ Safety First
-
-    Only simulate attacks on your own network, local VM, or test lab.
-
-    Never target devices or networks you don’t own.
-
-    Use a firewall or air-gapped VM to isolate test traffic.
-
-🧪 Attack Simulation Options
-1. 🧨 DoS: Slowloris
-
-    Tool: slowloris
-
-    Targets: HTTP servers (can use Python's built-in HTTP server)
-
-# Start a test web server
+# Launch a test server
 python -m http.server 80
 
-# Launch slowloris (needs Python 3)
+# Simulate attack (from another terminal/VM)
 git clone https://github.com/gkbrk/slowloris
 cd slowloris
 python3 slowloris.py 127.0.0.1
 
-2. 💣 DoS/DDoS & PortScan: hping3
+2. 💣 SYN/UDP Floods & PortScan - hping3
 
-# SYN Flood (DoS)
+# Install: sudo apt install hping3
+
+# SYN Flood
 sudo hping3 -S -p 80 --flood 127.0.0.1
 
 # UDP Flood
@@ -89,37 +88,24 @@ sudo hping3 --udp -p 53 --flood 127.0.0.1
 # Port Scan
 sudo hping3 -S -p ++20 -c 100 127.0.0.1
 
-    📦 Install: sudo apt install hping3 (Linux)
+3. 🦠 Botnet Emulation (VM Only)
 
-3. 🦠 Botnet Emulation: LOIC or HOIC (Use with caution)
+Tools like LOIC, HOIC, or Metasploit can emulate attacks but must be run in isolated test labs only.
+🔒 Safety Warning
 
-    Tools like LOIC are not safe to use on real networks.
+    NEVER run attacks on public networks
 
-    You can run them inside a VM with isolated networking to test how your IDS responds.
+    Use only inside VMs or isolated test environments
 
-4. 🧪 Metasploit Framework (Advanced)
+    Protect your host system with firewalls and snapshots
 
-    Exploit known vulnerabilities (e.g. Heartbleed, SMB)
+📥 Dataset Source
 
-    Use auxiliary/scanner modules for PortScan/DDoS sim
-
-    Requires setup of vulnerable targets (e.g., Metasploitable2)
-
-✅ Easy Local Safe Setup (Recommended for Now)
-
-    Spin up a Python HTTP server:
-
-python -m http.server 80
-
-    Run slowloris from a separate terminal/VM:
-
-python3 slowloris.py 127.0.0.1
-
-    Your realtime_ids.py should start detecting high-volume flows (e.g., DoS Hulk or Slowl
+    📄 CICIDS2017 Dataset
 
 📝 License
 
-MIT License — feel free to use and adapt!
+MIT License — free to use, adapt, and modify for your own research or deployment.
 
 ## 🔍 Demo Output
 
